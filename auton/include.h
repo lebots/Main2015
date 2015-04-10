@@ -1,0 +1,5 @@
+#include "C:/Users/Cameron/Desktop/Robotics/LE Bots/Gits/Main2015/auton/auton1.h"
+#include "C:/Users/Cameron/Desktop/Robotics/LE Bots/Gits/Main2015/auton/auton2.h"
+#include "C:/Users/Cameron/Desktop/Robotics/LE Bots/Gits/Main2015/auton/auton3.h"
+#include "C:/Users/Cameron/Desktop/Robotics/LE Bots/Gits/Main2015/auton/auton4.h"
+#include "C:/Users/Cameron/Desktop/Robotics/LE Bots/Gits/Main2015/auton/auton5.h"
