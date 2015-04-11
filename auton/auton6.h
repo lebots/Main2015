@@ -88,7 +88,7 @@ void auton6()
 	}
 
 	resetEncoders();
-	while (SensorValue[leftEncoder] < 165) {
+	while (SensorValue[leftEncoder] < 155) {
 		motor[lf] = 40;
 		motor[lb] = 40;
 		motor[rf] = -40;
