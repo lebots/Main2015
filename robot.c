@@ -50,15 +50,13 @@ void lift(int power) {
 
 #include ".\auton\include.h"
 
-//int autonMode = 0;
-
 int lp = 0;
 int rp = 0;
+short mainBattery = nImmediateBatteryLevel;
+short backupBattery = BackupBatteryLevel;
 
 void pre_auton()
 {
-	// Set bStopTasksBetweenModes to FlASE if you want to keep user created tasks running between EGG
-	// Autonomous and Tele-Op modes. You will need to manage all user created tasks if set to FlASE.
 	bStopTasksBetweenModes = true;
 }
 task autonomous() {
@@ -66,36 +64,20 @@ task autonomous() {
 	resetEncoders();
 
 	if (!SensorValue[autonIn1]) {
-		auton1();
+		auton1(); // Red low goal
 	} else if (!SensorValue[autonIn2]) {
-		auton2();
+		auton2(); // Blue low goal
 	} else if (!SensorValue[autonIn3]) {
-		auton3();
+		auton3(); // Forward grab cube back up
 	} else if (!SensorValue[autonIn4]) {
-		auton4();
+		auton4(); // 180 to the right
 	} else if (!SensorValue[autonIn5]) {
-		auton5();
+		auton5(); // 180 to the left
+	} else if (!SensorValue[autonIn6]) {
+		auton6(); // Blue skyrise
+	} else if (!SensorValue[autonIn7]) {
+		auton7(); // Red skyrise
 	}
-
-	/*resetEncoders();
-
-	switch(autonMode) {
-	case 1: // Bring cube back to base (normal)
-		auton1();
-		break;
-	case 2: // Red low goal
-		auton2();
-		break;
-	case 3:
-		auton3();
-		break;
-	case 4:
-		auton4();
-		break;
-	case 5:
-		auton5();
-		break;
-	}*/
 }
 task usercontrol() {
 	while (true)
@@ -104,85 +86,37 @@ task usercontrol() {
 		lp = (vexRT[Btn7U] ? 100 : (vexRT[Btn7D] ? -100 : (vexRT[Btn7L] ? -100 : (vexRT[Btn7R] ? 100 : 0))));
 		rp = (vexRT[Btn7U] ? 100 : (vexRT[Btn7D] ? -100 : (vexRT[Btn7L] ? 100 : (vexRT[Btn7R] ? -100 : 0))));
 
-		// Add controls for joysticks
+		// Controls for joysticks
 		lp += (abs(vexRT[Ch3]) > 15 ? (vexRT[Ch3] / 3.175) : 0);
 		rp += (abs(vexRT[Ch2]) > 15 ? (vexRT[Ch2] / 3.175) : 0);
 
-		// Slow drive button
-		lp *= vexRT[Btn6U] ? 0.625 : 1;
-		rp *= vexRT[Btn6U] ? 0.625 : 1;
-
-		// Fast drive button
-		lp *= vexRT[Btn5U] ? 2.5 : 1;
-		rp *= vexRT[Btn5U] ? 2.5 : 1;
+		// Slow and Fast drive button
+		lp *= (vexRT[Btn6U] ? 0.75 : 1) * (vexRT[Btn5U] ? 2.5 : 1);
+		rp *= (vexRT[Btn6U] ? 0.75 : 1) * (vexRT[Btn5U] ? 2.5 : 1);
 
 		// Set motor powers
 		motor[lf] = 1.27 * lp;
 		motor[lb] = 1.27 * lp;
 		motor[rf] = 1.27 * rp;
 		motor[rb] = 1.27 * rp;
-	/*
-
-	motor[lf] = 1.27 * (vexRT[Btn7U] ? 100 :
-	(vexRT[Btn7D] ? -100 :
-	(vexRT[Btn7L] ? -100 :
-	(vexRT[Btn7R] ? 100 :
-	abs(vexRT[Ch3]) > 15 ? (vexRT[Ch3] / 3.175) :
-	0)))) * (vexRT[Btn6U] ? 0.625 :
-	1) * (vexRT[Btn5U] ? 2.5 :
-		1);
-
-	motor[lb] = 1.27 * (vexRT[Btn7U] ? 100 :
-	(vexRT[Btn7D] ? -100 :
-	(vexRT[Btn7L] ? -100 :
-	(vexRT[Btn7R] ? 100 :
-	abs(vexRT[Ch3]) > 15 ? (vexRT[Ch3] / 3.175) :
-	0)))) * (vexRT[Btn6U] ? 0.625 : 1) * (vexRT[Btn5U] ? 2.5 :
-		1);
-
-	motor[rf] = 1.27 * (vexRT[Btn7U] ? 100 :
-	(vexRT[Btn7D] ? -100 :
-	(vexRT[Btn7L] ? 100 :
-	(vexRT[Btn7R] ? -100 :
-	abs(vexRT[Ch2]) > 15 ? (vexRT[Ch2] / 3.175) :
-	0)))) * (vexRT[Btn6U] ? 0.625 : 1) * (vexRT[Btn5U] ? 2.5 :
-		1);
-
-	motor[rb] = 1.27 * (vexRT[Btn7U] ? 100 :
-	(vexRT[Btn7D] ? -100 :
-	(vexRT[Btn7L] ? 100 :
-	(vexRT[Btn7R] ? -100 :
-	abs(vexRT[Ch2]) > 15 ? (vexRT[Ch2] / 3.175) :
-	0)))) * (vexRT[Btn6U] ? 0.625 : 1) * (vexRT[Btn5U] ? 2.5 :
-		1);
-		*/
 
 		// Raise and lower lift
 		lift((127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]));
 
-		/*
-		motor[llift] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
-		motor[rlift] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
-		motor[llift2] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
-		motor[rlift2] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
-		motor[llift3] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
-		motor[rlift3] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);*/
+		// Close claw
+		if (vexRT[Btn6UXmtr2]) SensorValue[clawPiston] = 1;
 
-		if (vexRT[Btn6UXmtr2]) {
-			SensorValue[clawPiston] = 1;
-		}
+		// Open claw
+		if (vexRT[Btn6DXmtr2]) SensorValue[clawPiston] = 0;
 
-		if (vexRT[Btn6DXmtr2]) {
-			SensorValue[clawPiston] = 0;
-		}
+		// Tilt claw up
+		if (vexRT[Btn8UXmtr2]) SensorValue[clawAngle] = 1;
 
-		if (vexRT[Btn8UXmtr2]) {
-			SensorValue[clawAngle] = 1;
-		}
+		// Tilt claw down
+		if (vexRT[Btn8DXmtr2]) SensorValue[clawAngle] = 0;
 
-		if (vexRT[Btn8DXmtr2]) {
-			SensorValue[clawAngle] = 0;
-		}
-
+		// Display voltages
+		mainBattery = nImmediateBatteryLevel;
+		backupBattery = BackupBatteryLevel;
 	}
 }
