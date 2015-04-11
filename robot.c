@@ -39,9 +39,21 @@ void resetEncoders() {
 	SensorValue[rightEncoder] = 0;
 }
 
+void lift(int power) {
+	motor[llift] = power;
+	motor[rlift] = power;
+	motor[llift2] = power;
+	motor[rlift2] = power;
+	motor[llift3] = power;
+	motor[rlift3] = power;
+}
+
 #include ".\auton\include.h"
 
-int autonMode = 0;
+//int autonMode = 0;
+
+int lp = 0;
+int rp = 0;
 
 void pre_auton()
 {
@@ -51,21 +63,21 @@ void pre_auton()
 }
 task autonomous() {
 
+	resetEncoders();
+
 	if (!SensorValue[autonIn1]) {
-		autonMode = 1;
+		auton1();
 	} else if (!SensorValue[autonIn2]) {
-		autonMode = 2;
+		auton2();
 	} else if (!SensorValue[autonIn3]) {
-		autonMode = 3;
+		auton3();
 	} else if (!SensorValue[autonIn4]) {
-		autonMode = 4;
+		auton4();
 	} else if (!SensorValue[autonIn5]) {
-		autonMode = 5;
-	} else {
-		autonMode = 0;
+		auton5();
 	}
 
-	resetEncoders();
+	/*resetEncoders();
 
 	switch(autonMode) {
 	case 1: // Bring cube back to base (normal)
@@ -83,14 +95,33 @@ task autonomous() {
 	case 5:
 		auton5();
 		break;
-	}
-	AutonomousCodePlaceholderForTesting();
+	}*/
 }
 task usercontrol() {
 	while (true)
 	{
+		// Button controls for driving
+		lp = (vexRT[Btn7U] ? 100 : (vexRT[Btn7D] ? -100 : (vexRT[Btn7L] ? -100 : (vexRT[Btn7R] ? 100 : 0))));
+		rp = (vexRT[Btn7U] ? 100 : (vexRT[Btn7D] ? -100 : (vexRT[Btn7L] ? 100 : (vexRT[Btn7R] ? -100 : 0))));
 
-		// "Simple" controls so you can move the joysticks and buttons to drive
+		// Add controls for joysticks
+		lp += (abs(vexRT[Ch3]) > 15 ? (vexRT[Ch3] / 3.175) : 0);
+		rp += (abs(vexRT[Ch2]) > 15 ? (vexRT[Ch2] / 3.175) : 0);
+
+		// Slow drive button
+		lp *= vexRT[Btn6U] ? 0.625 : 1;
+		rp *= vexRT[Btn6U] ? 0.625 : 1;
+
+		// Fast drive button
+		lp *= vexRT[Btn5U] ? 2.5 : 1;
+		rp *= vexRT[Btn5U] ? 2.5 : 1;
+
+		// Set motor powers
+		motor[lf] = 1.27 * lp;
+		motor[lb] = 1.27 * lp;
+		motor[rf] = 1.27 * rp;
+		motor[rb] = 1.27 * rp;
+	/*
 
 	motor[lf] = 1.27 * (vexRT[Btn7U] ? 100 :
 	(vexRT[Btn7D] ? -100 :
@@ -124,14 +155,18 @@ task usercontrol() {
 	abs(vexRT[Ch2]) > 15 ? (vexRT[Ch2] / 3.175) :
 	0)))) * (vexRT[Btn6U] ? 0.625 : 1) * (vexRT[Btn5U] ? 2.5 :
 		1);
+		*/
 
-		// "Simple" raising and lowering mech for lift
+		// Raise and lower lift
+		lift((127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]));
+
+		/*
 		motor[llift] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
 		motor[rlift] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
 		motor[llift2] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
 		motor[rlift2] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
 		motor[llift3] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
-		motor[rlift3] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);
+		motor[rlift3] = (127 * vexRT[Btn5DXmtr2]) - (127 * vexRT[Btn5UXmtr2]);*/
 
 		if (vexRT[Btn6UXmtr2]) {
 			SensorValue[clawPiston] = 1;
@@ -150,6 +185,4 @@ task usercontrol() {
 		}
 
 	}
-
-	UserControlCodePlaceholderForTesting();
 }
