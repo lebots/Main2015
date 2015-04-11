@@ -36,7 +36,7 @@ void auton1()
 	motor[rlift] = -127;
 	motor[rlift2] = -127;
     motor[rlift3] = -127;
-	wait1Msec(4000);
+	wait1Msec(3000);
 
 	motor[llift] = 0;
 	motor[llift2] = 0;
@@ -60,7 +60,7 @@ void auton1()
 	wait1Msec(250);
 
 	resetEncoders();
-	while (SensorValue[rightEncoder] > -125) {
+	while (SensorValue[rightEncoder] > -90) {
 		motor[lf] = 45;
 		motor[lb] = 45;
 		motor[rf] = 45;
@@ -77,7 +77,7 @@ void auton1()
 	motor[rlift] = 127;
 	motor[rlift2] = 127;
     motor[rlift3] = 127;
-	wait1Msec(1750);
+	wait1Msec(1000);
 
 	motor[llift] = 0;
 	motor[llift2] = 0;
@@ -86,12 +86,6 @@ void auton1()
 	motor[rlift2] = 0;
     motor[rlift3] = 0;
 	SensorValue[clawPiston] = 0;
-	motor[lf] = 25;
-	motor[lb] = 25;
-	motor[rf] = 25;
-	motor[rb] = 25;
-	wait1Msec(1000);
-
 	motor[lf] = -50;
 	motor[lb] = -50;
 	motor[rf] = -70;

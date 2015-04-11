@@ -2,24 +2,21 @@
 #define AUTON2_H
 
 void auton2()
-{   
-    SensorValue[clawPiston] = 1;
-    wait1Msec(50);
-    SensorValue[clawPiston] = 0;
-    
+{
 	while (SensorValue[leftEncoder] > -140) {
 		motor[lf] = -45;
 		motor[lb] = -45;
 		motor[rf] = -45;
 		motor[rb] = -45;
 	}
-
-	//motor[clawLift] = -100;
-	wait1Msec(500);
-
-	//motor[clawLift] = 0;
+    
+    SensorValue[clawPiston] = 1;
+    wait1Msec(100);
+    SensorValue[clawPiston] = 0;
+    wait1Msec(100);
+    
 	resetEncoders();
-	while (SensorValue[leftEncoder] < 130) {
+	while (SensorValue[leftEncoder] < 125) {
 		motor[lf] = 45;
 		motor[lb] = 45;
 		motor[rf] = 45;
@@ -30,22 +27,25 @@ void auton2()
 	motor[lb] = 0;
 	motor[rf] = 0;
 	motor[rb] = 0;
-	//motor[claw] = 100;
-	wait1Msec(750);
+	SensorValue[clawPiston] = 1;
+	wait1Msec(100);
 
-	//motor[claw] = 20;
 	motor[llift] = -127;
 	motor[llift2] = -127;
+    motor[llift3] = -127;
 	motor[rlift] = -127;
 	motor[rlift2] = -127;
-	wait1Msec(5000);
+    motor[rlift3] = -127;
+	wait1Msec(3000);
 
 	motor[llift] = 0;
 	motor[llift2] = 0;
+    motor[llift3] = 0;
 	motor[rlift] = 0;
 	motor[rlift2] = 0;
+    motor[rlift3] = 0;
 	resetEncoders();
-	while (SensorValue[leftEncoder] < 110) {
+	while (SensorValue[leftEncoder] < 145) {
 		motor[lf] = 45;
 		motor[lb] = 45;
 		motor[rf] = -45;
@@ -60,7 +60,7 @@ void auton2()
 	wait1Msec(250);
 
 	resetEncoders();
-	while (SensorValue[leftEncoder] < 125) {
+	while (SensorValue[leftEncoder] < 90) {
 		motor[lf] = 45;
 		motor[lb] = 45;
 		motor[rf] = 45;
@@ -73,33 +73,35 @@ void auton2()
 	motor[rb] = 0;
 	motor[llift] = 127;
 	motor[llift2] = 127;
+    motor[llift3] = 127;
 	motor[rlift] = 127;
 	motor[rlift2] = 127;
-	wait1Msec(1900);
+    motor[rlift3] = 127;
+	wait1Msec(1000);
 
 	motor[llift] = 0;
 	motor[llift2] = 0;
+    motor[llift3] = 0;
 	motor[rlift] = 0;
 	motor[rlift2] = 0;
-	//motor[claw] = -50;
-	wait1Msec(1000);
-
-	motor[lf] = -70;
-	motor[lb] = -70;
-	motor[rf] = -50;
-	motor[rb] = -50;
+    motor[rlift3] = 0;
+	SensorValue[clawPiston] = 0;
+	motor[lf] = -50;
+	motor[lb] = -50;
+	motor[rf] = -70;
+	motor[rb] = -70;
 	wait1Msec(750);
 
 	motor[llift] = 0;
 	motor[llift2] = 0;
+    motor[llift3] = 0;
 	motor[rlift] = 0;
 	motor[rlift2] = 0;
-	//motor[clawLift] = 0;
+    motor[rlift3] = 0;
 	motor[lf] = 0;
 	motor[lb] = 0;
 	motor[rf] = 0;
 	motor[rb] = 0;
-	//motor[claw] = 0;
 }
 
 #endif

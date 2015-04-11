@@ -6,6 +6,7 @@ void auton4()
     SensorValue[clawPiston] = 1;
     wait1Msec(50);
     SensorValue[clawPiston] = 0;
+    wait1Msec(250);
     
 	motor[lf] = 50;
 	motor[lb] = 50;

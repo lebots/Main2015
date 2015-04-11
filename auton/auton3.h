@@ -4,8 +4,9 @@
 void auton3()
 {
     SensorValue[clawPiston] = 1;
-    wait1Msec(50);
+    wait1Msec(100);
     SensorValue[clawPiston] = 0;
+    wait1Msec(250);
     
 	while (SensorValue[leftEncoder] < 400) {
 		motor[lf] = 50;

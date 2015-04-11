@@ -3,3 +3,5 @@
 #include "./auton/auton3.h"
 #include "./auton/auton4.h"
 #include "./auton/auton5.h"
+#include "./auton/auton6.h"
+#include "./auton/auton7.h"
