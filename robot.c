@@ -39,10 +39,9 @@ void resetEncoders() {
 	SensorValue[rightEncoder] = 0;
 }
 
-#include "C:\Users\Cameron\Desktop\Robotics\Le Bots\Gits\Main2015\auton\include.h"
+#include ".\auton\include.h"
 
 int autonMode = 0;
-
 
 void pre_auton()
 {
