@@ -3,13 +3,13 @@
 
 void auton7()
 {
-	SensorValue[clawPiston] = 1;
-	wait1Msec(100);
-	SensorValue[clawPiston] = 0;
-	wait1Msec(250);
+	SensorValue[clawPiston] = 1; // Drop claw
+	wait1Msec(100); // Wait 0.1 seconds
+	SensorValue[clawPiston] = 0; // Open claw
+	wait1Msec(250); // Wait 0.25
 
 	resetEncoders();
-	while (SensorValue[rightEncoder] > -240) {
+	while (SensorValue[rightEncoder] > -240) { // Drive forward 240 ticks
 		motor[lf] = 40;
 		motor[lb] = 40;
 		motor[rf] = 40;
@@ -17,7 +17,7 @@ void auton7()
 	}
 
 	resetEncoders();
-	while (SensorValue[rightEncoder] < 200) {
+	while (SensorValue[rightEncoder] < 200) { // Drive backward 200 ticks
 		motor[lf] = -40;
 		motor[lb] = -40;
 		motor[rf] = -40;
@@ -25,64 +25,40 @@ void auton7()
 	}
 
 	resetEncoders();
-	while (SensorValue[rightEncoder] < 570) {
+	while (SensorValue[rightEncoder] < 570) { // Turn Right 570 ticks
 		motor[lf] = 40;
 		motor[lb] = 40;
 		motor[rf] = -40;
 		motor[rb] = -40;
 	}
 
-	motor[lf] = 0;
+	motor[lf] = 0; // Stop drive
 	motor[lb] = 0;
 	motor[rf] = 0;
 	motor[rb] = 0;
-	lift(-127);
-	/*motor[llift] = -127;
-	motor[llift2] = -127;
-	motor[llift3] = -127;
-	motor[rlift] = -127;
-	motor[rlift2] = -127;
-	motor[rlift3] = -127;*/
-	wait1Msec(1100);
+	lift(127); // Raise lift
+	wait1Msec(1100); // Wait 1.1 Seconds
 
-	lift(0);
-	/*motor[llift] = 0;
-	motor[llift2] = 0;
-	motor[llift3] = 0;
-	motor[rlift] = 0;
-	motor[rlift2] = 0;
-	motor[rlift3] = 0;*/
-    motor[lf] = 40;
+	lift(0); // Stop lift
+    motor[lf] = 40; // Drive forward
 	motor[lb] = 40;
 	motor[rf] = 40;
 	motor[rb] = 40;
-    wait1Msec(600);
+    wait1Msec(600); // Wait 0.6 seconds
 
-	motor[lf] = 0;
+	motor[lf] = 0; // Stop drive
 	motor[lb] = 0;
 	motor[rf] = 0;
 	motor[rb] = 0;
-	SensorValue[clawPiston] = 1;
-	wait1Msec(250);
+	SensorValue[clawPiston] = 1; // Grab peg
+	wait1Msec(250); // Wait 0.25 seconds
 
-	lift(-127);
-	/*motor[llift] = -127;
-	motor[llift2] = -127;
-	motor[llift3] = -127;
-	motor[rlift] = -127;
-	motor[rlift2] = -127;
-	motor[rlift3] = -127;*/
-	wait1Msec(1000);
+	lift(127); // Raise lift more
+	wait1Msec(1000); // Wait 1 seconds
 
-	lift(0);
-	/*motor[llift] = 0;
-	motor[llift2] = 0;
-	motor[llift3] = 0;
-	motor[rlift] = 0;
-	motor[rlift2] = 0;
-	motor[rlift3] = 0;*/
+	lift(0); // Stop lift
 	resetEncoders();
-	while (SensorValue[leftEncoder] > -320) {
+	while (SensorValue[leftEncoder] > -320) { // Drive backward 320 ticks
 		motor[lf] = -40;
 		motor[lb] = -40;
 		motor[rf] = -40;
@@ -90,74 +66,62 @@ void auton7()
 	}
 
 	resetEncoders();
-	while (SensorValue[leftEncoder] > -320) {
+	while (SensorValue[leftEncoder] > -320) { // Turn left 320 ticks
 		motor[lf] = -40;
 		motor[lb] = -40;
 		motor[rf] = 40;
 		motor[rb] = 40;
 	}
 
-	motor[lf] = 0;
+	motor[lf] = 0; // Stop drive
 	motor[lb] = 0;
 	motor[rf] = 0;
 	motor[rb] = 0;
-	wait1Msec(500);
+	wait1Msec(500); // Wait 0.5 seconds
 
 	resetEncoders();
-	while (SensorValue[leftEncoder] < 85) {
+	while (SensorValue[leftEncoder] < 85) { // Drive forward 85 ticks
 		motor[lf] = 40;
 		motor[lb] = 40;
 		motor[rf] = 40;
 		motor[rb] = 40;
 	}
 
-	motor[lf] = 0;
+	motor[lf] = 0; // Stop drive
 	motor[lb] = 0;
 	motor[rf] = 0;
 	motor[rb] = 0;
-	lift(127);
-	/*motor[llift] = 127;
-	motor[llift2] = 127;
-	motor[llift3] = 127;
-	motor[rlift] = 127;
-	motor[rlift2] = 127;
-	motor[rlift3] = 127;*/
-	wait1Msec(850);
+	lift(-127); // Lower peg into base
+	wait1Msec(850); // Wait 0.85 seconds
 
-	lift(0);
-	/*motor[llift] = 0;
-	motor[llift2] = 0;
-	motor[llift3] = 0;
-	motor[rlift] = 0;
-	motor[rlift2] = 0;
-	motor[rlift3] = 0;*/
-    wait1Msec(500);
+	lift(0); // Stop lift
+    wait1Msec(500); // Wait 0.5 seconds
 
-    SensorValue[clawPiston] = 0;
-    wait1Msec(500);
+    SensorValue[clawPiston] = 0; // Release peg
+    wait1Msec(500); // Wait 0.5 seconsd
 
     resetEncoders();
-    motor[lf] = 30;
+    motor[lf] = 30; // Drive forward
     motor[lb] = 30;
     motor[rf] = 30;
     motor[rb] = 30;
-    wait1Msec(250);
+    wait1Msec(250); // Wait 0.25 seconds
 
-	motor[lf] = 0;
+	motor[lf] = 0; // Stop drive
 	motor[lb] = 0;
 	motor[rf] = 0;
 	motor[rb] = 0;
-    wait1Msec(100);
+    wait1Msec(100); // Wait 0.1 seconds
 
 	resetEncoders();
-	while (SensorValue[leftEncoder] > -100) {
+	while (SensorValue[leftEncoder] > -100) { // Drive backward 100 ticks
 		motor[lf] = -40;
 		motor[lb] = -40;
 		motor[rf] = -40;
 		motor[rb] = -40;
 	}
 
-	motor[lf] = 0;
+	motor[lf] = 0; // Stop drive
 	motor[lb] = 0;
 	motor[rf] = 0;
 	motor[rb] = 0;
